@@ -241,7 +241,7 @@ preLoop:
 	xor		rax, rax
 
 
-	mov rsp, rbp	; WYNtore original stack pointer
-	pop rbp			; WYNtore "calling procedure" frame pointer
+	mov rsp, rbp	
+	pop rbp		
 	ret
 
