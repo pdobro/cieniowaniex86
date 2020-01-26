@@ -1,35 +1,4 @@
 section .data
-	LFTX:		DD	0;left x
-	RTX:		DD	0;right x
-	CURRX:		DD	0;current x
-	CURRY:		DD  0;current y
-
-	RC:			DD	0;current red
-	GC:			DD	0;current green
-	BC:			DD	0;current blue
-
-	DR:			DD	0;color incrementer  (inside not edge)
-	DG:			DD	0
-	DB:			DD	0
-
-	WYN:		DD	0;result
-	TMP1:		DD	0;temp
-	TMP2:		DD  0
-	TMP3:		DD  0
-	TMP4:		DD	0
-	RES:		DD 	0
-
-	DAB:		DD	0;delta(slope) ab = ax - bx/ ay - by
-	DAC:		DD	0
-
-	LFTR:		DD	0;left edge colors
-	LFTG:		DD	0
-	LFTB:		DD	0
-
-	RTR:		DD	0;right edge colors
-	RTG:		DD	0
-	RTB:		DD	0
-
 	RAB:		DD	0;colors incementers at AB edge
 	GAB:		DD	0
 	BAB:		DD	0
@@ -42,14 +11,39 @@ section .data
 	GBC:		DD	0
 	BBC:		DD	0
 
-	;DAB:		DD	0;left x - second triangle
-	DBC:		DD	0;right x - secon triangle
-	;BAB:		DD	0;left edge colors - second triangle
-	;GAB:		DD	0
-	;RAB:		DD	0
-	;BBC:		DD	0;right edge colors - second triangle
-	;GBC:		DD	0
-	;RBC:		DD	0
+	DR:			DD	0;color incrementer  (inside not edge)
+	DG:			DD	0
+	DB:			DD	0
+	
+	DAB:		DD	0;delta(slope) ab = ax - bx/ ay - by
+	DAC:		DD	0
+	DBC:		DD	0;
+
+	LFTR:		DD	0;left edge colors
+	LFTG:		DD	0
+	LFTB:		DD	0
+
+	RTR:		DD	0;right edge colors
+	RTG:		DD	0
+	RTB:		DD	0
+
+	LFTX:		DD	0;left x
+	RTX:		DD	0;right x
+	CURRX:		DD	0;current x
+	;CURRY:		DD  0;current y
+
+	RC:			DD	0;current red
+	GC:			DD	0;current green
+	BC:			DD	0;current blue
+
+
+	WYN:		DD	0;result
+	TMP1:		DD	0;temp
+	TMP2:		DD  0
+	TMP3:		DD  0
+	TMP4:		DD	0
+	RES:		DD 	0
+
 	RC2:		DD	0;current red - second triangle
 	GC2:		DD	0;current green - second triangle
 	BC2:		DD	0;current blue -second triangle
@@ -289,14 +283,14 @@ begdraw:
 	fadd	dword [BAC];+=incrementer
 	fst		dword [RTB]
 	fistp	dword [WYN];save to pixel array
-	mov		al,		[WYN]
+	mov		al,[WYN]
 	stosb
 
 	fld		dword [RTG];load right blue
 	fadd	dword [GAC];+=incrementer
 	fst		dword [RTG]
 	fistp	dword [WYN];save to pixel array
-	mov		al,		[WYN]
+	mov		al,	[WYN]
 	stosb
 
 	fld		dword [RTR];load right red
@@ -338,24 +332,24 @@ begdraw:
 
 color:
 	;BGR! not RBG
-	fld		dword [BC];load BC (floating point)
-	fadd	dword [DB];st0+=DB
-	fst		dword [BC];save answet to BC
+	fld		dword [BC];load curr blue(floating point)
+	fadd	dword [DB];add incrementer
+	fst		dword [BC];save 
 	fistp	dword [WYN];save asnwer to WYN, pop stack
 	mov		al,	[WYN]
-	stosb;store al at rdi edi
+	stosb;store al at rdi
 
-	fld		dword [GC]
-	fadd	dword [DG]
-	fst		dword [GC]
-	fistp	dword [WYN]
+	fld		dword [GC];;load curr green
+	fadd	dword [DG];add incrementer
+	fst		dword [GC];save next green
+	fistp	dword [WYN];save to array
 	mov		al,	[WYN]
 	stosb
 
-	fld		dword [RC]
-	fadd	dword [DR]
-	fst		dword [RC]
-	fistp	dword [WYN]
+	fld		dword [RC];load current red
+	fadd	dword [DR];add incrementer
+	fst		dword [RC];save next red
+	fistp	dword [WYN];save
 	mov		al,	[WYN]
 	stosb
 
@@ -365,9 +359,9 @@ color:
 
 endloop:
 	;line ended
-	sub		rdx,	r14;right x - row size
+	sub		rdx, r14;curr row - row size
 
-	sub		ecx, 1
+	sub		rcx, 1;if zero go to second triangle
 	jnz		begdraw
 
 secondTriangle:
@@ -552,36 +546,36 @@ begdraw2:
 
 color2:
 	;BGR! not RBG
-	fld		dword [BC];load BC (floating point)
-	fadd	dword [DB];st0+=DB
+	fld		dword [BC];load curr blue (floating point)
+	fadd	dword [DB];add incrementer
 	fst		dword [BC];save answet to BC
 	fistp	dword [WYN];save asnwer to WYN, pop stack
 	mov		al,	[WYN]
-	stosb;store al at rdi edi
+	stosb;store al at rdi
 
-	fld		dword [GC];
-	fadd	dword [DG];
-	fst		dword [GC];
-	fistp	dword [WYN];
+	fld		dword [GC];;load curr green
+	fadd	dword [DG];add incrementer
+	fst		dword [GC];save next green
+	fistp	dword [WYN];save to array
 	mov		al,	[WYN]
 	stosb
 
-	fld		dword [RC]
-	fadd	dword [DR]
-	fst		dword [RC]
-	fistp	dword [WYN]
+	fld		dword [RC];load current red
+	fadd	dword [DR];add incrementer
+	fst		dword [RC];save next red
+	fistp	dword [WYN];save
 	mov		al,	[WYN]
 	stosb
 
 	add		ebx, 1
-	cmp		ebx,[RTX]
+	cmp		ebx,[RTX];
 	jne		color2
 
 endloop2:
+	;line ended
+	sub		rdx,	r14;curr row - row size
 
-	sub		rdx,	r14
-
-	sub		r8, 1
+	sub		r8, 1;if zero go to second triangle
 	jnz		begdraw2
 
 endProgram:
