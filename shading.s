@@ -105,21 +105,21 @@ firstTriangle:
 
 	mov		eax, [r15 + 4];ay
 	sub		eax, [r15 + 16];ay - by
-	;mov		[TMP1],	eax
-	movd	xmm1, eax
+	mov		[TMP1],	eax
+	;cvtsi2sd	xmm1, rax
 
 	mov		eax, [r15 + 12]
 	sub		eax, [r15]
-	;mov		[TMP2],	eax
-	movd	xmm2, eax
+	mov		[TMP2],	eax
+	;cvtsi2sd	xmm2, rax
 
-	;fild	dword [TMP2]
-	;fidiv	dword [TMP1];delta x/ delta y
-	;fstp	dword [DAB];store answer in DAB
+	fild	dword [TMP2]
+	fidiv	dword [TMP1];delta x/ delta y
+	fstp	dword [DAB];store answer in DAB
 
 
-	divss	xmm2, xmm1
-	movss	[DAB],xmm2
+	;divsd	xmm2, xmm1
+	;movsd	[DAB],xmm2
 
 getIncremeters:
 	;calculate color incrementers
@@ -135,13 +135,14 @@ getIncremeters:
 	sub		eax, ebx;delta color
 	mov		[TMP2],	eax
 
-	movd	xmm1, esi
-	movd	xmm2, eax
-	divss	xmm2, xmm1
-	movss	[RAB], xmm2
-	;fild	dword [TMP2]
-	;fidiv	dword [TMP1];delta color;/ delta y
-	;fstp	dword [RAB];store in RAB
+	;movd	xmm1, esi
+	;movd	xmm2, eax
+	;divss	xmm2, xmm1
+	;cvtss2si	eax, xmm2
+	;mov		[RAB], rax
+	fild	dword [TMP2]
+	fidiv	dword [TMP1];delta color;/ delta y
+	fstp	dword [RAB];store in RAB
 
 	xor		rax, rax
 	xor		rbx, rbx
@@ -150,6 +151,11 @@ getIncremeters:
 	sub		eax, ebx
 	mov		[TMP2],	eax
 
+
+	;movd	xmm2, eax
+	;divss	xmm2, xmm1
+	;cvtss2si	eax, xmm2
+	;mov		[GAB], rax
 	fild	dword [TMP2]
 	fidiv	dword [TMP1];d col/ dy
 	fstp	dword [GAB];store in GAB
@@ -161,6 +167,11 @@ getIncremeters:
 	sub		eax, ebx;delta color
 	mov		[TMP2],	eax
 
+
+	;movs	xmm2, eax
+	;divss	xmm2, xmm1
+	;cvtss2si	eax, xmm2
+	;mov		[BAB], rax
 	fild	dword [TMP2]
 	fidiv	dword [TMP1];d col/ dy
 	fstp	dword [BAB];store in BAB
