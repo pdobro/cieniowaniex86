@@ -12,7 +12,7 @@ shading.o:
 	$(ASM) $(ASM_OPTIONS) shading.s
 
 runner: shading.o main.o
-	$(GXX) -fPIC main.o shading.o -o runner -no-pie -lallegro -lallegro_image -lallegro_dialog -no-pie
+	$(GXX) -fPIC main.o shading.o -o runner -no-pie -lallegro -lallegro_image -lallegro_dialog
 
 clean:
 	rm *.o

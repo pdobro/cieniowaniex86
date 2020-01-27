@@ -42,7 +42,7 @@ section .data
 	TMP2:		DD  0
 	TMP3:		DD  0
 	TMP4:		DD	0
-	RES:		DD 	0
+
 
 	RC2:		DD	0;current red - second triangle
 	GC2:		DD	0;current green - second triangle
@@ -390,13 +390,12 @@ secondTriangle:
 	mov		ebx,	[r15 + 16]
 	mov		ecx,	[r15 + 28]
 
-;BY < CY
 	;mov		r8d, dword [r15]
 	mov	r8d, dword [r15 + 12];r8 = bx
 	;mov		r9d, dword [r15 + 4];r9=y
 	mov	r9d, dword [r15 + 16] 
 
-	mov		r10, r9;ay
+	mov		r10, r9;ayn
 	imul	r10, r14;ay * row size
 	mov		rax, r8;ax
 	lea		rax, [rax* 2 + rax];ax*3
@@ -596,7 +595,7 @@ endloop2:
 	;line ended
 	sub		rdx,	r14;curr row - row size
 
-	sub		r8, 1;if zero go to second triangle
+	sub		r8, 1;if zero -> end
 	jnz		begdraw2
 
 endProgram:

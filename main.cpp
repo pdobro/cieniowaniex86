@@ -11,21 +11,21 @@
 
 typedef struct 
 {
-   unsigned int ax;
-	unsigned int ay;
-	char ar;
-	char ag;
-	char ab;
-	unsigned int bx;
-	unsigned int by;
-	char br;
-	char bg;
-	char bb;
-	unsigned int cx;
-	unsigned int cy;
-	char cr;
-	char cg;
-	char cb;
+   unsigned int x1;
+	unsigned int y1;
+	char r1;
+	char g1;
+	char b1;
+	unsigned int x2;
+	unsigned int y2;
+	char r2;
+	char g2;
+	char b2;
+	unsigned int x3;
+	unsigned int y3;
+	char r3;
+	char g3;
+	char b3;
 } Triangle;
 
 extern "C"  void shading(char * begColorArray, int height, int width,int rsize , Triangle* triangle);
@@ -35,23 +35,23 @@ extern "C"  void shading(char * begColorArray, int height, int width,int rsize ,
 void setVertices(Triangle *triangle)
 {
 
-    triangle -> ax = 210;
-    triangle -> ay = 350;
-    triangle -> ar = 250;
-    triangle -> ag = 0;
-    triangle -> ab = 0;
+    triangle -> x1 = 210;
+    triangle -> y1 = 350;
+    triangle -> r1 = 250;
+    triangle -> g1 = 0;
+    triangle -> b1 = 0;
 
-    triangle -> bx = 10;
-    triangle -> by = 10;
-    triangle -> br = 0;
-    triangle -> bg = 250;
-    triangle -> bb = 0;
+    triangle -> x2 = 10;
+    triangle -> x2 = 10;
+    triangle -> r2 = 0;
+    triangle -> g2 = 250;
+    triangle -> b2 = 0;
 
-    triangle -> cx = 380;
-    triangle -> cy = 210;
-    triangle -> cr = 0;
-    triangle -> cg = 0;
-    triangle -> cb = 250;
+    triangle -> x3 = 380;
+    triangle -> y3 = 210;
+    triangle -> r3 = 0;
+    triangle -> g3 = 0;
+    triangle -> b3 = 250;
 
 }
 
@@ -139,27 +139,27 @@ int main()
       int temp;
       std::cout<<"enter color val of 1 verticle"<<std::endl;
       std::cin>>temp;
-      triangle.br = static_cast<char>(temp);
+      triangle.r2 = static_cast<char>(temp);
       std::cin>>temp;
-      triangle.bg = static_cast<char>(temp);
+      triangle.g2 = static_cast<char>(temp);
       std::cin>>temp;
-      triangle.bb = static_cast<char>(temp);
+      triangle.b2 = static_cast<char>(temp);
 
       std::cout<<"enter color val of 2 verticle"<<std::endl;
       std::cin>>temp;
-      triangle.ar = static_cast<char>(temp);
+      triangle.r1 = static_cast<char>(temp);
       std::cin>>temp;
-      triangle.ag = static_cast<char>(temp);
+      triangle.g1 = static_cast<char>(temp);
       std::cin>>temp;
-      triangle.ab = static_cast<char>(temp);
+      triangle.b1 = static_cast<char>(temp);
 
       std::cout<<"enter color val of 3 verticle"<<std::endl;
       std::cin>>temp;
-      triangle.cr = static_cast<char>(temp);
+      triangle.r3 = static_cast<char>(temp);
       std::cin>>temp;
-      triangle.cg = static_cast<char>(temp);
+      triangle.g3 = static_cast<char>(temp);
       std::cin>>temp;
-      triangle.cb = static_cast<char>(temp);
+      triangle.b3 = static_cast<char>(temp);
    }
    else
    {
